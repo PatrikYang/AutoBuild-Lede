@@ -5,14 +5,11 @@
 # Copyright (C) 2019 KFERMercer <KFER.Mercer@gmail.com>
 # 
 # <https://github.com/KFERMercer/OpenWrt-CI>
-#
+# 
 
 name: Lede_X64
 
 on:
-  #push:
-  #  branches: 
-  #    - master
   schedule:
     - cron: 0 20 * * *
   release:
@@ -27,7 +24,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout
         uses: actions/checkout@master
         with:
@@ -45,6 +41,7 @@ jobs:
           sudo -E apt-get -y autoremove --purge
           sudo -E apt-get clean
 
+          # 利用挂载在 /mnt/ 的 14G 额外空间:
           # sudo mkdir -p -m 777 /mnt/openwrt/bin /mnt/openwrt/build_dir/host /mnt/openwrt/build_dir/hostpkg /mnt/openwrt/dl /mnt/openwrt/feeds /mnt/openwrt/staging_dir
           # ln -s /mnt/openwrt/bin ./bin
           # mkdir -p ./build_dir/host && ln -s /mnt/openwrt/build_dir/host ./build_dir/host
@@ -73,7 +70,7 @@ jobs:
           cd openwrt-packages
           git clone https://github.com/Lienol/openwrt-package.git
           git clone https://github.com/tty228/luci-app-serverchan.git
-          
+
       - name: Update feeds
         run: |
           ./scripts/feeds update -a
@@ -225,8 +222,7 @@ jobs:
       - name: Make download
         run: |
           make download -j8
-          find ./dl/ -size -1024c -exec rm -f {} \;
-          df -h
+          find dl -size -1024c -exec rm -f {} \;
 
       - name: Compile firmware
         run: |
