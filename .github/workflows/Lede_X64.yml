@@ -78,7 +78,7 @@ jobs:
 
       - name: Generate configuration file
         run: |
-          cp ./x86_64.config ./.config
+          cp ./X64.config ./.config
           make defconfig
 
       - name: Make download
