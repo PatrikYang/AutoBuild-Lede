@@ -69,7 +69,6 @@ jobs:
           mkdir openwrt-packages
           cd openwrt-packages
           git clone https://github.com/Lienol/openwrt-package.git
-          git clone https://github.com/tty228/luci-app-serverchan.git
 
       - name: Update feeds
         run: |
