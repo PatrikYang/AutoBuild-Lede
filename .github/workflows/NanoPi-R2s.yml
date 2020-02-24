@@ -1,4 +1,4 @@
-name: NanoPi-R2s RK3328 OpenWrt Build
+name: NanoPi-R2s
 
 on:
   schedule:
@@ -90,17 +90,11 @@ jobs:
           
       #复制本项目根目录下的.config文件（可上传替换为自己的文件）到friendlywrt-rk3328/friendlywrt/下
       #make defconfig 的意思是把.config你没写的部分用默认值补全，无效值全部删掉 
-      - name: Costom Configure File
-        env:
-          CONFIG_FILE: 'R2S'
-          CONFIG_FILE_FULL: '.config'
+      - name: Custom Configure File
         run: |
-          [ -e $CONFIG_FILE_FULL ] && mv $CONFIG_FILE_FULL friendlywrt-rk3328/friendlywrt/.config
+          cp ./Config/R2S.config ./.config
           cd friendlywrt-rk3328/friendlywrt
           make defconfig
-#          [ -e $CONFIG_FILE ] && mv $CONFIG_FILE friendlywrt-rk3328/configs
-#          cd friendlywrt-rk3328/device/friendlyelec/rk3328
-#          sed -i 's/TARGET_FRIENDLYWRT_CONFIG=config_rk3328/TARGET_FRIENDLYWRT_CONFIG=$CONFIG_FILE/' nanopi_r2s.mk
 
       #如果环境变量设置为true,执行到此步骤时会弹出几行信息，上面有ssh的命令和https的链接，可选择在终端通过ssh链接修改配置或者通过web连接修改
       - name: SSH connection to Actions
